@@ -3,10 +3,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import './App.css';
 
 const routes = createBrowserRouter([
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
   },
   {
@@ -21,7 +22,11 @@ const routes = createBrowserRouter([
 
 function App() {
   return (
+    <>
+    
     <RouterProvider router={routes} />
+    </>
+
   );
 }
 
