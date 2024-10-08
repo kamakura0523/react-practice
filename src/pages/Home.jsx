@@ -122,6 +122,7 @@ export default Home;
 function SignUpButton() {
   const SignUp = () => {
     //firebaseを使って新規登録を行う
+    //おかしくないか？
   };
   return (
     <button className="submitButton" onClick={SignUp}>
