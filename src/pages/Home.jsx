@@ -1,11 +1,14 @@
 import React from "react";
 import "../App.css";
 import { useState } from "react";
+import {
+  sigininWithEmailAndPassword,
+  siginupWithEmailAndPassword,
+} from "../firebase";
 const Home = () => {
   const initialValues = { username: "", mailAddress: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,12 +16,38 @@ const Home = () => {
     console.log(formValues);
   };
 
-  const handleSubmit = (e) => {
+  function LoginButton() {
+    const Login = async (e) => {
+      //firebaseを使ってログイン処理を行う
+
+      e.preventDefault();
+      const user = await sigininWithEmailAndPassword(
+        formValues.username,
+        formValues.mailAddress,
+        formValues.password
+      );
+      console.log("サインインUser情報 : ", user);
+    };
+    return (
+      <button className="submitButton" onClick={Login}>
+        ログイン
+      </button>
+    );
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //ログイン情報を送信する
     //バリデーション
     setFormErrors(validate(formValues));
-    setIsSubmit(true);
+    if (Object.keys(formErrors).length === 0) {
+      const user = await siginupWithEmailAndPassword(
+        formValues.username,
+        formValues.mailAddress,
+        formValues.password
+      );
+      console.log(user);
+    }
   };
 
   const validate = (values) => {
@@ -44,8 +73,6 @@ const Home = () => {
   return (
     <div className="Home">
       <h1>Welcome to the Home Page</h1>
-      <p>This is the Home component.</p>
-
       <div className="formContainer">
         <form onSubmit={(e) => handleSubmit(e)}>
           <h1>ログインフォーム</h1>
@@ -81,10 +108,8 @@ const Home = () => {
               ></input>
             </div>
             <p className="errorMsg">{formErrors.password}</p>
-            <button className="submitButton">ログイン</button>
-            {Object.keys(formErrors).length === 0 && isSubmit && (
-              <div>ログイン成功しました</div>
-            )}
+            <LoginButton />
+            <SignUpButton />
           </div>
         </form>
       </div>
@@ -93,3 +118,14 @@ const Home = () => {
 };
 
 export default Home;
+
+function SignUpButton() {
+  const SignUp = () => {
+    //firebaseを使って新規登録を行う
+  };
+  return (
+    <button className="submitButton" onClick={SignUp}>
+      新規登録
+    </button>
+  );
+}

@@ -7,6 +7,10 @@ import './App.css';
 
 const routes = createBrowserRouter([
   {
+    path: "/",
+    element: <h1>Welcome to My Route App!</h1>,
+  },
+  {
     path: "/home",
     element: <Home />,
   },
